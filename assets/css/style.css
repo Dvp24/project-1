@@ -1,0 +1,54 @@
+body{
+}
+.grad{
+  background-image: linear-gradient(to right, #cb356b, #bd3f32);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 400;
+  border-bottom: 3px #28a745 solid;
+
+}
+.transparent{
+  background-color: #cb356b;
+  color: #ffffff;
+}
+.sidebar{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 300;
+  width: 300px;
+  height: 100%;
+  background-color: #121212;
+}
+
+.display{
+  width: 760px;
+  height: 900px;
+  margin: 20px;
+  /* background-color: #131313; */
+  background-image: linear-gradient(to bottom, #cb356b, #bd3f32);
+  display:flex;
+  flex-wrap:wrap;
+  flex-direction:column;
+
+}
+img{
+  width: 200px;
+  height: 100%;
+  z-index: 1100;
+}
+.mainPage{
+  display:flex;
+  position: absolute;
+  right: 0px;
+  top: 57px;
+  background-color: #000000;
+  width: 963px;
+  height: 100%;
+  align-items:center;
+  flex-direction:column;
+  flex-wrap:wrap;
+  overflow: auto
+}
