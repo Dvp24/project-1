@@ -119,24 +119,26 @@ function getSpotifyAlbum(movie) {
       if (err) console.log(err);
 
       console.log(data);
-
       // write album tracks to the page
+    //  call the function here to list tracks
     })
   })
 }
+// function to print music tracks
+ // create click
 
 
-$(document).on("click", "playMusic", function () {
-  var musicSearch = movie;//search by album
-  var queryurl2 //spotify url goes here
-  $.ajax({
-    url: queryurl2,
-    method: "GET"
-  }).then(function (r) {
-    console.log(r);
+// $(document).on("click", "playMusic", function () {
+//   var musicSearch = movie;//search by album
+//   var queryurl2 //spotify url goes here
+//   $.ajax({
+//     url: queryurl2,
+//     method: "GET"
+//   }).then(function (r) {
+//     console.log(r);
 
-  })
-})
+//   })
+// })
 function render() {
   $(".sidebar").empty();
 
