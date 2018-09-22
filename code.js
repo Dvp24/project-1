@@ -87,16 +87,6 @@ $(document).on("click", ".cursor", function () {
     $(".details").append("<div class = 'btn music'>Watch Trailer</div>").append("<br>");
 
     // musicbutton click event and another api ajAX query for music goes to spotify here within the call back function
-    $(".results-area").append("<div class='suggestions'>");//optional
-    $(".suggestions").html("<div class='slideshow'>");
-    $(".slideshow").html("Suggestions").append("<ul>");
-    for (var j = 0; j < resp.length; j++) {// why my for loop is not working
-      $(".slideshow > ul").append("<li class='slide'>");
-      console.log("hi");
-      $(".slide").html(resp.Poster);
-      // $(".slide"+j).html(resp.Poster).append(resp.Title);
-    }
-    // }
     if (access_token) {
       getSpotifyAlbum(movie);
     } else {
@@ -117,28 +107,19 @@ function getSpotifyAlbum(movie) {
     // search for album's tracks based on it's id
     spotifyApi.getAlbumTracks(albumId, {}, function(err, data) {
       if (err) console.log(err);
-
       console.log(data);
       // write album tracks to the page
     //  call the function here to list tracks
+    $(".music").on("click",function(){  //ashley code goes here
+      event.preventDefault();
+      getMusicList(data);
+    })
     })
   })
 }
-// function to print music tracks
- // create click
 
 
-// $(document).on("click", "playMusic", function () {
-//   var musicSearch = movie;//search by album
-//   var queryurl2 //spotify url goes here
-//   $.ajax({
-//     url: queryurl2,
-//     method: "GET"
-//   }).then(function (r) {
-//     console.log(r);
 
-//   })
-// })
 function render() {
   $(".sidebar").empty();
 
@@ -148,8 +129,6 @@ function render() {
     // Adding a class
     a.addClass("recent");
     // Adding a data-attribute with a value of the movie at index i
-    // a.attr("data-name", movies[i]);
-    // Providing the button's text with a value of the movie at index i
     a.text(recent[z]);
     // Adding the button to the HTML
     $(".sidebar").append(a).append("<br>");//why not going on next line
@@ -157,3 +136,25 @@ function render() {
 }
 
 // http://www.omdbapi.com/?i=tt3896198&apikey=32eadb
+function getMusicList(data) {
+    console.log(data)
+    // console.log(data.Search[0]);
+    // if (data.Response !== "False") {
+      var trackslist = $("<div>");
+      trackslist.addClass("tracks-area")
+      trackslist.appendTo(".display")
+      for (var i = 0; i < data.items.length; i++) {
+        var musicDiv = $("<div>");
+        musicDiv
+          .addClass("music-cursor")
+          .text(data.items[i].name)
+          .append("<br>")
+          // .append
+          .appendTo(".tracks-area")
+      }
+     
+  }
+
+$(".music-cursor").on("click",function(){
+  console.log("anything")
+})
