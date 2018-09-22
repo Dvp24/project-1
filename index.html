@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" class="logo" href="img/logo-4.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css">
-  <link rel="stylesheet" href="assets/css/atyle.css">
-  <title>project</title>
+  <link rel="stylesheet" href="style.css">
+  <title>personal</title>
 </head>
 
 <body id="styleguide-v2">
@@ -35,21 +36,39 @@
         <input class="form-control mr-sm-2 transparent searchBar" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0 submit" type="submit">Search</button>
       </form>
+      <button class="btn btn-success" id="spotify-login">Spotify Login</button>
     </div>
   </nav>
-  <div class="sidebar"> -->
+  <div class="sidebar">
   </div>
   <div class="mainPage">
     <div class="display">
-      
+      <!-- <div class="homepage">
+        <div class="carousel-item size">
+          <img src="img/abu.jpeg" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>jkjhkjk</h5>
+            <p>hkhkjh</p>
+          </div>
+        </div>
+      </div> -->
+      <div class="results-area">
+        <!-- movie content goes here -->
+      </div> 
+      <button class="btn btn-lg music" id="get-more-button">
+        Show More Results
+      </button>
 
      </div>
+     
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/js/bootstrap.min.js"></script>
-  <script src="assets/js/mov.js"></script>
+  <script src="spotify-web-api.js"></script>
+  <script src="spotify-auth.js"></script>
+  <script src="code.js"></script>
 </body>
 
 </html>

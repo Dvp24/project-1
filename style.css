@@ -15,6 +15,11 @@
   width: 25%;
   height: 100%;
   display: flex;
+  color: #bd3f32;
+  padding-top: 85px;
+}
+.size{
+  width: 80%;
 }
 .mainPage{
   display: flex;
