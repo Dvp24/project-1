@@ -8,6 +8,7 @@ $("#get-more-button").hide();
 //gjgjjgjgjgj
 
 function getMovieList(pageCount, searchTerm) {
+  $(".tracks-area").hide();
   var queryurl = "https://omdbapi.com/?apikey=32eadb&type=movie&s=" + searchTerm + "&page=" + pageCount;
   $.ajax({
     url: queryurl,
@@ -111,7 +112,7 @@ function getSpotifyAlbum(movie) {
       // write album tracks to the page
     //  call the function here to list tracks
     $(".music").on("click",function(){  //ashley code goes here
-      event.preventDefault();
+      // event.preventDefault();
       getMusicList(data);
     })
     })
@@ -155,6 +156,17 @@ function getMusicList(data) {
      
   }
 
-$(".music-cursor").on("click",function(){
-  console.log("anything")
+  $(document).on("click", ".music-cursor", function () {
+    console.log("anything")
+    musicPlayer(data);
 })
+function musicPlayer(data) {
+  // console.log(data)
+  // console.log(data.Search[0]);
+  // if (data.Response !== "False") {
+    var player = $("<audio>");
+    player.addClass(".player")
+    player.appendTo(".display");
+    player.attr("src",data.items[0].preview_url);
+   
+}
