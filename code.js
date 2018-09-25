@@ -1,3 +1,16 @@
+// slideshow for homepage
+var latest;
+var queryurl0 = "https://omdbapi.com/?apikey=32eadb&type=movie&y=2018&page=";
+$.ajax({
+  url: queryurl0,
+  method: "GET"
+}).then(function (latest) {
+  console.log(latest)
+ 
+
+})
+
+
 var recent = [];
 var pageCount = 1;
 var title;
@@ -160,6 +173,7 @@ function getMusicList(data) {
     console.log("anything")
     musicPlayer(data);
 })
+
 function musicPlayer(data) {
   // console.log(data)
   // console.log(data.Search[0]);
