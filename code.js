@@ -1,6 +1,7 @@
 // slideshow for homepage
 var latest;
-var queryurl0 = "https://omdbapi.com/?apikey=32eadb&type=movie&y=2018&page=";
+var queryurl0 = "https://api.themoviedb.org/3/trending/movie/week?api_key=ec4984a8351c88fd48d06bd73b9d2a85"
+var player = document.createElement("audio");
 $.ajax({
   url: queryurl0,
   method: "GET"
@@ -98,7 +99,7 @@ $(document).on("click", ".cursor", function () {
     $(".details").append("Runtime: " + resp.Runtime).append("<br>");
     $(".details").append("Actors: " + resp.Actors).append("<br>");
     $(".details").append("<div class = 'btn music'>Music</div>").append("<br>");
-    $(".details").append("<div class = 'btn music'>Watch Trailer</div>").append("<br>");
+    // $(".details").append("<div class = 'btn music'>Watch Trailer</div>").append("<br>");
 
     // musicbutton click event and another api ajAX query for music goes to spotify here within the call back function
     if (access_token) {
@@ -161,6 +162,7 @@ function getMusicList(data) {
         var musicDiv = $("<div>");
         musicDiv
           .addClass("music-cursor")
+          .attr("data-preview", data.items[i].preview_url)
           .text(data.items[i].name)
           .append("<br>")
           // .append
@@ -171,16 +173,20 @@ function getMusicList(data) {
 
   $(document).on("click", ".music-cursor", function () {
     console.log("anything")
-    musicPlayer(data);
+    var previewUrl = $(this).attr("data-preview");
+    musicPlayer(previewUrl);
 })
 
-function musicPlayer(data) {
+function musicPlayer(songUrl) {
   // console.log(data)
   // console.log(data.Search[0]);
   // if (data.Response !== "False") {
-    var player = $("<audio>");
-    player.addClass(".player")
-    player.appendTo(".display");
-    player.attr("src",data.items[0].preview_url);
+    console.log(songUrl);
+    if (!songUrl) {
+      return false;
+    }
+    
+    player.setAttribute("src", songUrl);
+    player.play();
    
 }
