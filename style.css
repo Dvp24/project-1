@@ -95,3 +95,11 @@ margin-left: 10px;
   position: absolute;
   margin-left: 100px;
 }
+.txt{
+  font-size: 24px;
+  font-weight: bolder;
+}
+.small-txt{
+  font-weight: bold;
+  font-size: 18px;
+}

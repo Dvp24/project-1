@@ -7,8 +7,26 @@ $.ajax({
   method: "GET"
 }).then(function (latest) {
   console.log(latest)
-  
+  for (var p = 0; p < latest.results.length; p++) {
+    $(".clk" + p).attr("src", "https://image.tmdb.org/t/p/w1280" + latest.results[p].poster_path).addClass("movieSel").attr("alt",latest.results[p].title);
+    $(".movie-name"+p).html(latest.results[p].title)
+  }
+  $(".movieSel").on("click", function () {
+    console.log("hey")
+    var moviesel = $(this).val("alt");
+    // console.log(moviesel);
+    var movieName = moviesel[0].alt;
+    console.log(movieName)
+    // var queryurl0 = "https://api.themoviedb.org/3/search/movie/title?"+ movieName+"api_key=ec4984a8351c88fd48d06bd73b9d2a85"
+    // $.ajax({
+    //   url: queryurl0,
+    //   method: "GET"
+    // }).then(function (latestmov) {
+    //   console.log(latestmov)
+    // })
+  })
 })
+
 
 
 var recent = [];
@@ -57,6 +75,7 @@ function getMovieList(pageCount, searchTerm) {
 
 $(".submit").on("click", function () {
   event.preventDefault()//am i supposed to use it everytime i use buttons and the click events on my page???
+  $("#slideshow").hide();
   title = $(".searchBar").val();
   pageCount = 1;
   $(".results-area").empty();
@@ -113,21 +132,21 @@ $(document).on("click", ".cursor", function () {
 // spotify album search function
 function getSpotifyAlbum(movie) {
   // search for album so we can get the album's id back
-  spotifyApi.searchAlbums(movie, {}, function(err, data) {
+  spotifyApi.searchAlbums(movie, {}, function (err, data) {
     if (err) console.log(err);
     console.log(data);
     // get first return album's id 
     var albumId = data.albums.items[0].id;
     // search for album's tracks based on it's id
-    spotifyApi.getAlbumTracks(albumId, {}, function(err, data) {
+    spotifyApi.getAlbumTracks(albumId, {}, function (err, data) {
       if (err) console.log(err);
       console.log(data);
       // write album tracks to the page
-    //  call the function here to list tracks
-    $(".music").on("click",function(){  //ashley code goes here
-      // event.preventDefault();
-      getMusicList(data);
-    })
+      //  call the function here to list tracks
+      $(".music").on("click", function () {  //ashley code goes here
+        // event.preventDefault();
+        getMusicList(data);
+      })
     })
   })
 }
@@ -151,42 +170,42 @@ function render() {
 
 // http://www.omdbapi.com/?i=tt3896198&apikey=32eadb
 function getMusicList(data) {
-    console.log(data)
-    // console.log(data.Search[0]);
-    // if (data.Response !== "False") {
-      var trackslist = $("<div>");
-      trackslist.addClass("tracks-area")
-      trackslist.appendTo(".display")
-      for (var i = 0; i < data.items.length; i++) {
-        var musicDiv = $("<div>");
-        musicDiv
-          .addClass("music-cursor")
-          .attr("data-preview", data.items[i].preview_url)
-          .text(data.items[i].name)
-          .append("<br>")
-          // .append
-          .appendTo(".tracks-area")
-      }
-     
+  console.log(data)
+  // console.log(data.Search[0]);
+  // if (data.Response !== "False") {
+  var trackslist = $("<div>");
+  trackslist.addClass("tracks-area")
+  trackslist.appendTo(".display")
+  for (var i = 0; i < data.items.length; i++) {
+    var musicDiv = $("<div>");
+    musicDiv
+      .addClass("music-cursor")
+      .attr("data-preview", data.items[i].preview_url)
+      .text(data.items[i].name)
+      .append("<br>")
+      // .append
+      .appendTo(".tracks-area")
   }
 
-  $(document).on("click", ".music-cursor", function () {
-    console.log("anything")
-    var previewUrl = $(this).attr("data-preview");
-    musicPlayer(previewUrl);
+}
+
+$(document).on("click", ".music-cursor", function () {
+  console.log("anything")
+  var previewUrl = $(this).attr("data-preview");
+  musicPlayer(previewUrl);
 })
 
 function musicPlayer(songUrl) {
   // console.log(data)
   // console.log(data.Search[0]);
   // if (data.Response !== "False") {
-    console.log(songUrl);
-    if (!songUrl) {
-      return false;
-    }
-    
-    player.setAttribute("src", songUrl);
-    player.play();
-    $(".puase")
-   
+  console.log(songUrl);
+  if (!songUrl) {
+    return false;
+  }
+
+  player.setAttribute("src", songUrl);
+  player.play();
+  $(".puase")
+
 }
