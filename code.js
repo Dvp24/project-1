@@ -7,8 +7,7 @@ $.ajax({
   method: "GET"
 }).then(function (latest) {
   console.log(latest)
- 
-
+  
 })
 
 
@@ -188,5 +187,6 @@ function musicPlayer(songUrl) {
     
     player.setAttribute("src", songUrl);
     player.play();
+    $(".puase")
    
 }
