@@ -1,4 +1,5 @@
 // slideshow for homepage
+// API request to the TMDB API to get trending movies in response
 var latest;
 var queryurl0 = "https://api.themoviedb.org/3/trending/movie/week?api_key=ec4984a8351c88fd48d06bd73b9d2a85"
 var player = document.createElement("audio");
@@ -13,17 +14,28 @@ $.ajax({
   }
   $(".movieSel").on("click", function () {
     console.log("hey")
-    var moviesel = $(this).val("alt");
-    // console.log(moviesel);
-    var movieName = moviesel[0].alt;
-    console.log(movieName)
-    // var queryurl0 = "https://api.themoviedb.org/3/search/movie/title?"+ movieName+"api_key=ec4984a8351c88fd48d06bd73b9d2a85"
-    // $.ajax({
-    //   url: queryurl0,
-    //   method: "GET"
-    // }).then(function (latestmov) {
-    //   console.log(latestmov)
-    // })
+    var moviesel = $(this).attr("alt");
+    console.log(moviesel);
+
+    var queryurl0 = "https://api.themoviedb.org/3/search/movie?query="+ moviesel+"&api_key=ec4984a8351c88fd48d06bd73b9d2a85"
+    $.ajax({
+      url: queryurl0,
+      method: "GET"
+    }).then(function (latestmov) {
+      console.log(latestmov)
+      $("#slideshow").hide();
+      $(".results-area").html("<div class='selMovie'>");
+      $(".selMovie").append("<img class='poster'>");
+      $(".poster").attr("src", "https://image.tmdb.org/t/p/w1280" + latestmov.results[0].poster_path);
+      $(".selMovie").append("<div class='details'>");
+      $(".details").append("<div class='boldNBig'>" + latestmov.results[0].title + "</div>").append("<br>");
+      $(".details").append("Release Date: " + latestmov.results[0].release_date).append("<br>");
+      $(".details").append("Overview: " + latestmov.results[0].overview).append("<br>");
+      $(".details").append("Actors: " + latestmov.Actors).append("<br>");
+      $(".details").append("<div class = 'btn music'>Music</div>").append("<br>");
+    }).catch(function(err) {
+      console.log(err);
+    })
   })
 })
 
@@ -36,9 +48,10 @@ var movie;
 
 // on load hide get more button
 $("#get-more-button").hide();
-//gjgjjgjgjgj
 
+// API request to the omdb API to get the movie list depending on search results
 function getMovieList(pageCount, searchTerm) {
+  // hide tracks div
   $(".tracks-area").hide();
   var queryurl = "https://omdbapi.com/?apikey=32eadb&type=movie&s=" + searchTerm + "&page=" + pageCount;
   $.ajax({
@@ -46,7 +59,7 @@ function getMovieList(pageCount, searchTerm) {
     method: "GET"
   }).then(function (response) {
     console.log(response)
-    // console.log(response.Search[0]);
+    // if the searched movie 
     if (response.Response !== "False") {
       for (var i = 0; i < response.Search.length; i++) {
         var movieDiv = $("<div>");
@@ -55,8 +68,6 @@ function getMovieList(pageCount, searchTerm) {
           .text(response.Search[i].Title)
           .append("<br/>")
           .appendTo(".results-area")
-        // $(".results-area").append("<div class='clickable" + i + "'>");
-        // $(".clickable" + i).append(response.Search[i].Title).append("<br>").addClass("cursor");
       }
       $("#get-more-button").show();
     } else {
@@ -158,13 +169,13 @@ function render() {
 
   for (var z = 0; z < recent.length; z++) {
     // $(".sidebar").append(recent[z]).append("<br>");
-    var a = $("<div>");
+    var a = $("<h6>");
     // Adding a class
     a.addClass("recent");
     // Adding a data-attribute with a value of the movie at index i
     a.text(recent[z]);
     // Adding the button to the HTML
-    $(".sidebar").append(a).append("<br>");//why not going on next line
+    $(".sidebar").append(a);//why not going on next line????/
   }
 }
 

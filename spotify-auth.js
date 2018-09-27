@@ -84,7 +84,7 @@ $('#spotify-login')
   .on('click', function () {
     console.log("hi");
     var client_id = spotify_CLIENT; // Your client id
-    var redirect_uri = 'http://localhost:8000'; // Your redirect uri
+    var redirect_uri = 'https://dvp24.github.io/project-1/'; // Your redirect uri
 
     // generate random state key
     var state = generateRandomString(16);
