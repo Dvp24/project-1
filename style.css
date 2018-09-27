@@ -14,7 +14,6 @@
   background-color: #121212; 
   width: 25%;
   height: 100%;
-  display: flex;
   color: #bd3f32;
   padding-top: 85px;
 }
@@ -94,4 +93,15 @@ margin-left: 10px;
   height: 100px;;
   position: absolute;
   margin-left: 100px;
+}
+.txt{
+  font-size: 24px;
+  font-weight: bolder;
+}
+.small-txt{
+  font-weight: bold;
+  font-size: 18px;
+}
+h6{
+  margin-left: 10px;
 }

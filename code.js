@@ -1,4 +1,5 @@
 // slideshow for homepage
+// API request to the TMDB API to get trending movies in response
 var latest;
 var queryurl0 = "https://api.themoviedb.org/3/trending/movie/week?api_key=ec4984a8351c88fd48d06bd73b9d2a85"
 var player = document.createElement("audio");
@@ -7,8 +8,37 @@ $.ajax({
   method: "GET"
 }).then(function (latest) {
   console.log(latest)
-  
+  for (var p = 0; p < latest.results.length; p++) {
+    $(".clk" + p).attr("src", "https://image.tmdb.org/t/p/w1280" + latest.results[p].poster_path).addClass("movieSel").attr("alt",latest.results[p].title);
+    $(".movie-name"+p).html(latest.results[p].title)
+  }
+  $(".movieSel").on("click", function () {
+    console.log("hey")
+    var moviesel = $(this).attr("alt");
+    console.log(moviesel);
+
+    var queryurl0 = "https://api.themoviedb.org/3/search/movie?query="+ moviesel+"&api_key=ec4984a8351c88fd48d06bd73b9d2a85"
+    $.ajax({
+      url: queryurl0,
+      method: "GET"
+    }).then(function (latestmov) {
+      console.log(latestmov)
+      $("#slideshow").hide();
+      $(".results-area").html("<div class='selMovie'>");
+      $(".selMovie").append("<img class='poster'>");
+      $(".poster").attr("src", "https://image.tmdb.org/t/p/w1280" + latestmov.results[0].poster_path);
+      $(".selMovie").append("<div class='details'>");
+      $(".details").append("<div class='boldNBig'>" + latestmov.results[0].title + "</div>").append("<br>");
+      $(".details").append("Release Date: " + latestmov.results[0].release_date).append("<br>");
+      $(".details").append("Overview: " + latestmov.results[0].overview).append("<br>");
+      $(".details").append("Actors: " + latestmov.Actors).append("<br>");
+      $(".details").append("<div class = 'btn music'>Music</div>").append("<br>");
+    }).catch(function(err) {
+      console.log(err);
+    })
+  })
 })
+
 
 
 var recent = [];
@@ -18,9 +48,10 @@ var movie;
 
 // on load hide get more button
 $("#get-more-button").hide();
-//gjgjjgjgjgj
 
+// API request to the omdb API to get the movie list depending on search results
 function getMovieList(pageCount, searchTerm) {
+  // hide tracks div
   $(".tracks-area").hide();
   var queryurl = "https://omdbapi.com/?apikey=32eadb&type=movie&s=" + searchTerm + "&page=" + pageCount;
   $.ajax({
@@ -28,7 +59,7 @@ function getMovieList(pageCount, searchTerm) {
     method: "GET"
   }).then(function (response) {
     console.log(response)
-    // console.log(response.Search[0]);
+    // if the searched movie 
     if (response.Response !== "False") {
       for (var i = 0; i < response.Search.length; i++) {
         var movieDiv = $("<div>");
@@ -37,8 +68,6 @@ function getMovieList(pageCount, searchTerm) {
           .text(response.Search[i].Title)
           .append("<br/>")
           .appendTo(".results-area")
-        // $(".results-area").append("<div class='clickable" + i + "'>");
-        // $(".clickable" + i).append(response.Search[i].Title).append("<br>").addClass("cursor");
       }
       $("#get-more-button").show();
     } else {
@@ -57,6 +86,7 @@ function getMovieList(pageCount, searchTerm) {
 
 $(".submit").on("click", function () {
   event.preventDefault()//am i supposed to use it everytime i use buttons and the click events on my page???
+  $("#slideshow").hide();
   title = $(".searchBar").val();
   pageCount = 1;
   $(".results-area").empty();
@@ -113,21 +143,21 @@ $(document).on("click", ".cursor", function () {
 // spotify album search function
 function getSpotifyAlbum(movie) {
   // search for album so we can get the album's id back
-  spotifyApi.searchAlbums(movie, {}, function(err, data) {
+  spotifyApi.searchAlbums(movie, {}, function (err, data) {
     if (err) console.log(err);
     console.log(data);
     // get first return album's id 
     var albumId = data.albums.items[0].id;
     // search for album's tracks based on it's id
-    spotifyApi.getAlbumTracks(albumId, {}, function(err, data) {
+    spotifyApi.getAlbumTracks(albumId, {}, function (err, data) {
       if (err) console.log(err);
       console.log(data);
       // write album tracks to the page
-    //  call the function here to list tracks
-    $(".music").on("click",function(){  //ashley code goes here
-      // event.preventDefault();
-      getMusicList(data);
-    })
+      //  call the function here to list tracks
+      $(".music").on("click", function () {  //ashley code goes here
+        // event.preventDefault();
+        getMusicList(data);
+      })
     })
   })
 }
@@ -139,54 +169,54 @@ function render() {
 
   for (var z = 0; z < recent.length; z++) {
     // $(".sidebar").append(recent[z]).append("<br>");
-    var a = $("<div>");
+    var a = $("<h6>");
     // Adding a class
     a.addClass("recent");
     // Adding a data-attribute with a value of the movie at index i
     a.text(recent[z]);
     // Adding the button to the HTML
-    $(".sidebar").append(a).append("<br>");//why not going on next line
+    $(".sidebar").append(a);//why not going on next line????/
   }
 }
 
 // http://www.omdbapi.com/?i=tt3896198&apikey=32eadb
 function getMusicList(data) {
-    console.log(data)
-    // console.log(data.Search[0]);
-    // if (data.Response !== "False") {
-      var trackslist = $("<div>");
-      trackslist.addClass("tracks-area")
-      trackslist.appendTo(".display")
-      for (var i = 0; i < data.items.length; i++) {
-        var musicDiv = $("<div>");
-        musicDiv
-          .addClass("music-cursor")
-          .attr("data-preview", data.items[i].preview_url)
-          .text(data.items[i].name)
-          .append("<br>")
-          // .append
-          .appendTo(".tracks-area")
-      }
-     
+  console.log(data)
+  // console.log(data.Search[0]);
+  // if (data.Response !== "False") {
+  var trackslist = $("<div>");
+  trackslist.addClass("tracks-area")
+  trackslist.appendTo(".display")
+  for (var i = 0; i < data.items.length; i++) {
+    var musicDiv = $("<div>");
+    musicDiv
+      .addClass("music-cursor")
+      .attr("data-preview", data.items[i].preview_url)
+      .text(data.items[i].name)
+      .append("<br>")
+      // .append
+      .appendTo(".tracks-area")
   }
 
-  $(document).on("click", ".music-cursor", function () {
-    console.log("anything")
-    var previewUrl = $(this).attr("data-preview");
-    musicPlayer(previewUrl);
+}
+
+$(document).on("click", ".music-cursor", function () {
+  console.log("anything")
+  var previewUrl = $(this).attr("data-preview");
+  musicPlayer(previewUrl);
 })
 
 function musicPlayer(songUrl) {
   // console.log(data)
   // console.log(data.Search[0]);
   // if (data.Response !== "False") {
-    console.log(songUrl);
-    if (!songUrl) {
-      return false;
-    }
-    
-    player.setAttribute("src", songUrl);
-    player.play();
-    $(".puase")
-   
+  console.log(songUrl);
+  if (!songUrl) {
+    return false;
+  }
+
+  player.setAttribute("src", songUrl);
+  player.play();
+  $(".puase")
+
 }
